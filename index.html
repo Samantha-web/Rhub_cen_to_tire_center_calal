@@ -1,0 +1,231 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rear Axle to Tire Center Length Calculator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+      }
+      #footer {
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px;
+        background-color: hsl(80, 13%, 95%);
+        border-top: 1px solid #ccc;
+      }
+      .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+      }
+      select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .button-container {
+        display: flex;
+        gap: 10px;
+      }
+      button {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: white;
+      }
+      #calculateBtn {
+        background-color: #007bff;
+      }
+      #calculateBtn:hover {
+        background-color: #0056b3;
+      }
+      #resetBtn {
+        background-color: #6c757d;
+      }
+      #resetBtn:hover {
+        background-color: #5a6268;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        display: none;
+      }
+      .result.show {
+        display: block;
+      }
+      p {
+        margin: 5px 0;
+        color: #333;
+      }
+      .text-center {
+        text-align: center !important;
+      }
+      .rounded {
+        border-radius: var(--bs-border-radius) !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Rear Axle to Tire Center Length Calculator</h1>
+      <label for="rimSize">Rim Size</label>
+      <select id="rimSize">
+        <option value="217">12 (217 mm)</option>
+        <option value="217">12 x 1.75 (217 mm)</option>
+        <option value="267">14 (267 mm)</option>
+        <option value="267">14 x 1.75 (267 mm)</option>
+        <option value="319">16 (319 mm)</option>
+        <option value="319">16 x 1.75 (319 mm)</option>
+        <option value="368">18 (368 mm)</option>
+        <option value="368">18 x 1.75 (368 mm)</option>
+        <option value="420">20 (420 mm)</option>
+        <option value="420">20 x 1.75 (420 mm)</option>
+        <option value="417.75">20 x 1.75 (417.75 mm)</option>
+        <option value="520">24 (520 mm)</option>
+        <option value="519">24 x 1.75 (519 mm)</option>
+        <option value="520">24 x 1.75 (520 mm)</option>
+        <option value="521">24 x 1.75 (521 mm)</option>
+        <option value="572">26 (572 mm)</option>
+        <option value="570.45">26 x 1.75 (570.45 mm)</option>
+        <option value="572">26 x 1.75 (572 mm)</option>
+        <option value="602">26 x 1 3/8 (602 mm)</option>
+        <option value="595">27.5 (595 mm)</option>
+        <option value="595">27.5 x 1.75 (595 mm)</option>
+        <option value="634">28 x 1.75 (634 mm)</option>
+        <option value="634.5">28 x 1.75 (634.5 mm)</option>
+        <option value="634">29 x 1.75 (634 mm)</option>
+        <option value="634.5">29 x 1.75 (634.5 mm)</option>
+        <option value="634">700C (634 mm)</option>
+        <option value="633.55">700C x 1.75 (633.55 mm)</option>
+        <option value="634">700C x 1.75 (634 mm)</option>
+        <option value="634.5">700C x 1.75 (634.5 mm)</option>
+      </select>
+      <label for="tireWidth">Tire Width</label>
+      <select id="tireWidth">
+        <option value="38">1.5" (38 mm)</option>
+        <option value="44">1.75" (44 mm)</option>
+        <option value="48">1.9" (48 mm)</option>
+        <option value="49">1.95" (49 mm)</option>
+        <option value="50">2.0" (50 mm)</option>
+        <option value="54">2.125" (54 mm)</option>
+        <option value="55">2.2" (55 mm)</option>
+        <option value="58">2.3" (58 mm)</option>
+        <option value="59">2.35" (59 mm)</option>
+        <option value="61">2.4" (61 mm)</option>
+        <option value="63">2.5" (63 mm)</option>
+        <option value="75">3.0" (75 mm)</option>
+        <option value="95">3.8" (95 mm)</option>
+        <option value="100">4.0" (100 mm)</option>
+        <option value="110">4.5" (110 mm)</option>
+        <option value="127">5.0" (127 mm)</option>
+        <option value="18">18 C (18 mm)</option>
+        <option value="20">20 C (20 mm)</option>
+        <option value="23">23 C (23 mm)</option>
+        <option value="25">25 C (25 mm)</option>
+        <option value="28">28 C (28 mm)</option>
+        <option value="30">30 C (30 mm)</option>
+        <option value="32">32 C (32 mm)</option>
+        <option value="35">35 C (35 mm)</option>
+        <option value="38">38 C (38 mm)</option>
+        <option value="40">40 C (40 mm)</option>
+        <option value="42">42 C (42 mm)</option>
+        <option value="45">45 C (45 mm)</option>
+        <option value="50">50 C (50 mm)</option>
+      </select>
+      <div class="button-container">
+        <button id="calculateBtn" onclick="calculate()">Calculate</button>
+        <button id="resetBtn" onclick="reset()">Reset</button>
+      </div>
+      <div id="result" class="result">
+        <p id="rimDiameter"></p>
+        <p id="tireWidthDisplay"></p>
+        <p id="length"></p>
+        <p id="appx" class="text-center"></p>
+      </div>
+      <hr />
+      <div class="text-center">
+        <img src="racl.jpg" class="rounded" alt="How to messure the length" />
+      </div>
+      <hr />
+      <div>
+        <footer id="footer" class="text-sm text-gray-600">
+          Copyright Samantha 2025 © All rights reserved.<br />
+          <a
+            href="mailto:s2880882@gmail.com"
+            class="text-blue-600 hover:underline"
+          >
+            s2880882@gmail.com (Samantha)
+          </a>
+        </footer>
+      </div>
+    </div>
+    <script type="text/javascript">
+      function calculate() {
+        const rimDiameter =
+          parseFloat(document.getElementById("rimSize").value) || 0;
+        const tireWidth =
+          parseFloat(document.getElementById("tireWidth").value) || 0;
+
+        // Calculate rear axle to tire center length (rim radius + half tire width + 5mm offset)
+        const length = rimDiameter / 2 + tireWidth / 2 + 5;
+
+        // Update result display
+        const resultDiv = document.getElementById("result");
+        document.getElementById(
+          "rimDiameter"
+        ).textContent = `Rim Diameter: ${rimDiameter.toFixed(2)} mm`;
+        document.getElementById(
+          "tireWidthDisplay"
+        ).textContent = `Minimum Tire position width: ${(
+          tireWidth + 16
+        ).toFixed(1)} mm`;
+        document.getElementById(
+          "length"
+        ).textContent = `Minimum Rear Axle to Tire position Length: ${length.toFixed(
+          1
+        )} mm`;
+        document.getElementById("appx").textContent = `Approximately (±0 – 5)`;
+        resultDiv.classList.add("show");
+      }
+
+      function reset() {
+        document.getElementById("rimSize").selectedIndex = 0;
+        document.getElementById("tireWidth").selectedIndex = 0;
+        const resultDiv = document.getElementById("result");
+        document.getElementById("rimDiameter").textContent = "";
+        document.getElementById("tireWidthDisplay").textContent = "";
+        document.getElementById("length").textContent = "";
+        document.getElementById("appx").textContent = "";
+        resultDiv.classList.remove("show");
+      }
+    </script>
+  </body>
+</html>
