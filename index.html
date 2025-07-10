@@ -1,103 +1,366 @@
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rear Axle to Tire Center Length Calculator</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-        padding: 20px;
-      }
-      #footer {
-        text-align: center;
-        margin-top: 20px;
-        padding: 10px;
-        background-color: hsl(80, 13%, 95%);
-        border-top: 1px solid #ccc;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rear Axle to Tire Center Length Calculator</title>
+  <style>
+    :root {
+      --primary: #007bff;
+      --secondary: #6c757d;
+      --success: #28a745;
+      --light: #f8f9fa;
+      --dark: #343a40;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .nav-container {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto 20px;
+    }
+    
+    .home-btn {
+      display: inline-block;
+      width: 100%;
+      background-color: #e6b400;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      margin-bottom: 15px;
+    }
+    
+    .home-btn:hover {
+      background-color: #d4a600;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .container {
+      background-color: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+    }
+    
+    .instructions {
+      background-color: #e8f4ff;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 25px;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .instructions h2 {
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+    
+    .instructions p {
+      margin-bottom: 8px;
+    }
+    
+    .language-tabs {
+      display: flex;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .language-tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      background: #f1f1f1;
+      border: none;
+      border-radius: 5px 5px 0 0;
+      margin-right: 5px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .language-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .language-content {
+      display: none;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 0 0 8px 8px;
+    }
+    
+    .language-content.active {
+      display: block;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #495057;
+    }
+    
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ced4da;
+      border-radius: 6px;
+      background-color: white;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    select:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+    
+    .button-container {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+    }
+    
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    #calculateBtn {
+      background-color: var(--primary);
+    }
+    
+    #calculateBtn:hover {
+      background-color: #0069d9;
+      transform: translateY(-2px);
+    }
+    
+    #resetBtn {
+      background-color: var(--secondary);
+    }
+    
+    #resetBtn:hover {
+      background-color: #5a6268;
+      transform: translateY(-2px);
+    }
+    
+    .result {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid var(--success);
+      display: none;
+    }
+    
+    .result.show {
+      display: block;
+      animation: fadeIn 0.5s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .result p {
+      margin: 10px 0;
+      color: #212529;
+      font-size: 1.05rem;
+    }
+    
+    .result p:first-child {
+      margin-top: 0;
+    }
+    
+    .result-highlight {
+      font-weight: bold;
+      color: var(--success);
+    }
+    
+    .image-container {
+      margin: 25px 0;
+      text-align: center;
+    }
+    
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .image-container p {
+      font-style: italic;
+      color: #6c757d;
+      margin-top: 8px;
+    }
+    
+    #footer {
+      text-align: center;
+      margin-top: 25px;
+      padding: 15px;
+      background-color: hsl(80, 13%, 95%);
+      border-top: 1px solid #ddd;
+      max-width: 800px;
+      width: 100%;
+      margin: 25px auto 0;
+      border-radius: 0 0 12px 12px;
+    }
+    
+    .footer-text {
+      color: #6c757d;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+    
+    .footer-link {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-link:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
       .container {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
-        width: 100%;
+        padding: 20px 15px;
       }
+      
       h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 20px;
+        font-size: 1.6rem;
       }
-      label {
-        display: block;
-        margin-bottom: 8px;
-        color: #555;
-      }
-      select {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-      }
+      
       .button-container {
-        display: flex;
-        gap: 10px;
+        flex-direction: column;
       }
+      
+      .home-btn {
+        font-size: 1rem;
+        padding: 10px;
+      }
+      
+      .language-tabs {
+        flex-direction: column;
+      }
+      
+      .language-tab {
+        border-radius: 5px;
+        margin-bottom: 5px;
+        text-align: center;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 15px 10px;
+      }
+      
+      h1 {
+        font-size: 1.4rem;
+      }
+      
+      .instructions {
+        padding: 12px;
+      }
+      
+      select {
+        padding: 10px;
+        font-size: 0.95rem;
+      }
+      
       button {
-        flex: 1;
         padding: 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        color: white;
+        font-size: 0.95rem;
       }
-      #calculateBtn {
-        background-color: #007bff;
-      }
-      #calculateBtn:hover {
-        background-color: #0056b3;
-      }
-      #resetBtn {
-        background-color: #6c757d;
-      }
-      #resetBtn:hover {
-        background-color: #5a6268;
-      }
-      .result {
-        margin-top: 20px;
-        padding: 10px;
-        background-color: #f8f9fa;
-        border-radius: 4px;
-        display: none;
-      }
-      .result.show {
-        display: block;
-      }
-      p {
-        margin: 5px 0;
-        color: #333;
-      }
-      .text-center {
-        text-align: center !important;
-      }
-      .rounded {
-        border-radius: var(--bs-border-radius) !important;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <a href="https://samantha-web.github.io/navigationhub/" class="w-full bg-yellow-600 text-white text-2xl font-semibold py-6 px-8 rounded-lg shadow-lg hover:bg-yellow-700 transition duration-300 transform group-hover:scale-105"
-        >Back to Home</a>
-      <h1>Rear Axle to Tire Center Length Calculator</h1>
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-container">
+    <a href="https://samantha-web.github.io/navigationhub/" class="home-btn">
+      Back to Home
+    </a>
+  </div>
+  
+  <div class="container">
+    <h1>Rear Axle to Tire Center Length Calculator</h1>
+    
+    <div class="instructions">
+      <h2>How to Use This Calculator</h2>
+      <div class="language-tabs">
+        <button class="language-tab active" data-lang="english">English</button>
+        <button class="language-tab" data-lang="bangla">বাংলা</button>
+      </div>
+      
+      <div id="english-content" class="language-content active">
+        <p><strong>Step 1:</strong> Select your rim size from the dropdown list</p>
+        <p><strong>Step 2:</strong> Select your tire width from the dropdown list</p>
+        <p><strong>Step 3:</strong> Click the "Calculate" button</p>
+        <p><strong>Step 4:</strong> View your results showing the minimum required dimensions</p>
+        <p><strong>Note:</strong> The calculation includes an additional 5mm offset for chain clearance and frame design</p>
+      </div>
+      
+      <div id="bangla-content" class="language-content">
+        <p><strong>ধাপ ১:</strong> ড্রপডাউন তালিকা থেকে আপনার রিমের আকার নির্বাচন করুন</p>
+        <p><strong>ধাপ ২:</strong> ড্রপডাউন তালিকা থেকে আপনার টায়ারের প্রস্থ নির্বাচন করুন</p>
+        <p><strong>ধাপ ৩:</strong> "গণনা করুন" বাটনে ক্লিক করুন</p>
+        <p><strong>ধাপ ৪:</strong> ন্যূনতম প্রয়োজনীয় মাত্রা দেখুন</p>
+        <p><strong>দ্রষ্টব্য:</strong> চেইন ক্লিয়ারেন্স এবং ফ্রেম ডিজাইনের জন্য অতিরিক্ত ৫ মিমি অফসেট অন্তর্ভুক্ত করা হয়েছে</p>
+      </div>
+    </div>
+    
+    <div class="form-group">
       <label for="rimSize">Rim Size</label>
       <select id="rimSize">
         <option value="217">12 (217 mm)</option>
@@ -130,6 +393,9 @@
         <option value="634">700C x 1.75 (634 mm)</option>
         <option value="634.5">700C x 1.75 (634.5 mm)</option>
       </select>
+    </div>
+    
+    <div class="form-group">
       <label for="tireWidth">Tire Width</label>
       <select id="tireWidth">
         <option value="38">1.5" (38 mm)</option>
@@ -162,72 +428,106 @@
         <option value="45">45 C (45 mm)</option>
         <option value="50">50 C (50 mm)</option>
       </select>
-      <div class="button-container">
-        <button id="calculateBtn" onclick="calculate()">Calculate</button>
-        <button id="resetBtn" onclick="reset()">Reset</button>
-      </div>
-      <div id="result" class="result">
-        <p id="rimDiameter"></p>
-        <p id="tireWidthDisplay"></p>
-        <p id="length"></p>
-        <p id="appx" class="text-center"></p>
-      </div>
-      <hr />
-      <div class="text-center">
-        <img src="racl.jpg" class="rounded" alt="How to messure the length" />
-      </div>
-      <hr />
-      <div>
-        <footer id="footer" class="text-sm text-gray-600">
-          Copyright Samantha 2025 © All rights reserved.<br />
-          <a
-            href="mailto:s2880882@gmail.com"
-            class="text-blue-600 hover:underline"
-          >
-            s2880882@gmail.com (Samantha)
-          </a>
-        </footer>
-      </div>
     </div>
-    <script type="text/javascript">
-      function calculate() {
-        const rimDiameter =
-          parseFloat(document.getElementById("rimSize").value) || 0;
-        const tireWidth =
-          parseFloat(document.getElementById("tireWidth").value) || 0;
+    
+    <div class="button-container">
+      <button id="calculateBtn">Calculate</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+    
+    <div id="result" class="result">
+      <p id="rimDiameter"></p>
+      <p id="tireWidthDisplay"></p>
+      <p id="length"></p>
+      <p id="appx" class="result-highlight"></p>
+    </div>
+    
+    <div class="image-container">
+      <img src="racl.jpg" alt="How to measure rear axle to tire center length">
+      <p>Measurement Diagram: Rear Axle to Tire Center Length</p>
+    </div>
+  </div>
+  
+  <footer id="footer">
+    <p class="footer-text">Copyright Samantha 2025 © All rights reserved.</p>
+    <a href="mailto:s2880882@gmail.com" class="footer-link">
+      s2880882@gmail.com (Samantha)
+    </a>
+  </footer>
 
-        // Calculate rear axle to tire center length (rim radius + half tire width + 5mm offset)
-        const length = rimDiameter / 2 + tireWidth / 2 + 5;
-
-        // Update result display
-        const resultDiv = document.getElementById("result");
-        document.getElementById(
-          "rimDiameter"
-        ).textContent = `Rim Diameter: ${rimDiameter.toFixed(2)} mm`;
-        document.getElementById(
-          "tireWidthDisplay"
-        ).textContent = `Minimum Tire position width: ${(
-          tireWidth + 16
-        ).toFixed(1)} mm`;
-        document.getElementById(
-          "length"
-        ).textContent = `Minimum Rear Axle to Tire position Length: ${length.toFixed(
-          1
-        )} mm`;
-        document.getElementById("appx").textContent = `Approximately (±0 – 5)`;
-        resultDiv.classList.add("show");
+  <script>
+    // DOM Elements
+    const rimSizeSelect = document.getElementById('rimSize');
+    const tireWidthSelect = document.getElementById('tireWidth');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const resultDiv = document.getElementById('result');
+    const rimDiameterEl = document.getElementById('rimDiameter');
+    const tireWidthDisplayEl = document.getElementById('tireWidthDisplay');
+    const lengthEl = document.getElementById('length');
+    const appxEl = document.getElementById('appx');
+    
+    // Language tabs functionality
+    const languageTabs = document.querySelectorAll('.language-tab');
+    languageTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs and content
+        document.querySelectorAll('.language-tab, .language-content').forEach(el => {
+          el.classList.remove('active');
+        });
+        
+        // Add active class to clicked tab
+        tab.classList.add('active');
+        
+        // Show corresponding content
+        const lang = tab.getAttribute('data-lang');
+        document.getElementById(`${lang}-content`).classList.add('active');
+      });
+    });
+    
+    // Calculate function
+    function calculate() {
+      const rimDiameter = parseFloat(rimSizeSelect.value) || 0;
+      const tireWidth = parseFloat(tireWidthSelect.value) || 0;
+      
+      if (!rimDiameter || !tireWidth) {
+        alert('Please select both rim size and tire width');
+        return;
       }
-
-      function reset() {
-        document.getElementById("rimSize").selectedIndex = 0;
-        document.getElementById("tireWidth").selectedIndex = 0;
-        const resultDiv = document.getElementById("result");
-        document.getElementById("rimDiameter").textContent = "";
-        document.getElementById("tireWidthDisplay").textContent = "";
-        document.getElementById("length").textContent = "";
-        document.getElementById("appx").textContent = "";
-        resultDiv.classList.remove("show");
-      }
-    </script>
-  </body>
+      
+      // Calculate rear axle to tire center length (rim radius + half tire width + 5mm offset)
+      const length = rimDiameter / 2 + tireWidth / 2 + 5;
+      
+      // Update result display
+      rimDiameterEl.textContent = `Rim Diameter: ${rimDiameter.toFixed(2)} mm`;
+      tireWidthDisplayEl.textContent = `Minimum Tire position width: ${(tireWidth + 16).toFixed(1)} mm`;
+      lengthEl.textContent = `Minimum Rear Axle to Tire position Length: ${length.toFixed(1)} mm`;
+      appxEl.textContent = `Approximately (±0 - 5mm)`;
+      
+      // Show results with animation
+      resultDiv.classList.add('show');
+      
+      // Scroll to results
+      resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    
+    // Reset function
+    function reset() {
+      rimSizeSelect.selectedIndex = 0;
+      tireWidthSelect.selectedIndex = 0;
+      resultDiv.classList.remove('show');
+    }
+    
+    // Event listeners
+    calculateBtn.addEventListener('click', calculate);
+    resetBtn.addEventListener('click', reset);
+    
+    // Set default selections to common values
+    window.addEventListener('DOMContentLoaded', () => {
+      // Set default to 26" wheel and 2.0" tire
+      rimSizeSelect.value = "572";
+      tireWidthSelect.value = "50";
+    });
+  </script>
+</body>
 </html>
